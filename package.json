@@ -5,7 +5,10 @@
 
     "scripts": {
         "build": "tsc",
-        "build:watch": "tsc --watch"
+        "build:watch": "tsc --watch",
+        "clean": "rimraf public/scripts/",
+        "start:dev": "npm run clean && npm run build && run-p build:watch start",
+        "start": "node public/scripts/index.js"
     },
 
     "devDependencies": {
@@ -23,7 +26,7 @@
     },
     "dependencies": {
         "express": "^4.17.1"
-    }
-    
+    },
+    "type": "module"
     
 }
