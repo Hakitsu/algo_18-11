@@ -60,7 +60,7 @@ const problemesFaciles: {[objectifs : string] : Array<string>} = {
 }
 
 const problemeDifficile: {[objectifs: string]: Array<string>}={
-    "eeeeeeeeeeeeeeeeeeeeeeeeeef":[
+    "eeeeeeeeeeeeeeeef":[
         "e",
         "ee",
         "eee",
@@ -72,7 +72,10 @@ const problemeDifficile: {[objectifs: string]: Array<string>}={
 
 type ConstructionPossible = ( objectif: string, alphabet:Array<string> ) => boolean
   
-const constructionPossible : ConstructionPossible = ( objectif: string, alphabet:Array<string> ): boolean => {
+const constructionPossible : ConstructionPossible = ( objectif: string, alphabet:Array<string>, memo: { [objectif : string] : boolean } = {} ): boolean => {
+    if(objectif in memo){
+        return memo[objectif]
+    }
     if(objectif === ""){
         return true
     }
@@ -80,10 +83,12 @@ const constructionPossible : ConstructionPossible = ( objectif: string, alphabet
         if(objectif.indexOf(element) === 0 ){ // on vérifie si l'élement est au debut du mot
             const reste = objectif.slice(element.length) // on retire la partie de l'objectif qui est égale à l'element
             if(constructionPossible(reste, alphabet)){
+                memo[objectif] = true
                 return true
             }
         }
     }
+    memo[objectif] = false
     return false
 }
 
@@ -94,8 +99,8 @@ function benchProbleme(problemes : {[p : string] : Array<string>}) {
     }
 }
 
-benchProbleme(problemesFaciles)
-
+//benchProbleme(problemesFaciles)
+benchProbleme(problemeDifficile)
 
 
 
