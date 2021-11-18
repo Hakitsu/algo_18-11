@@ -70,19 +70,19 @@ const problemeDifficile: {[objectifs: string]: Array<string>}={
     ]// false
 }
 
-type ConstructionPossible = ( objectif: string, alphabet:Array<string> ) => boolean
+type ConstructionPossible = ( objectif: string, alphabet:Array<string>, memo: { [objectif : string] : boolean }  ) => boolean
   
 const constructionPossible : ConstructionPossible = ( objectif: string, alphabet:Array<string>, memo: { [objectif : string] : boolean } = {} ): boolean => {
-    if(objectif in memo){
+    if(objectif in memo){  // Si j'ai déjà un résultat pour objectif dans mon cache, je renvoie ce résultat
         return memo[objectif]
     }
     if(objectif === ""){
         return true
     }
     for(let element of alphabet){
-        if(objectif.indexOf(element) === 0 ){ // on vérifie si l'élement est au debut du mot
+        if(objectif.indexOf(element) === 0 ){ // on vérifie si l'objectif commence par l'élément
             const reste = objectif.slice(element.length) // on retire la partie de l'objectif qui est égale à l'element
-            if(constructionPossible(reste, alphabet)){
+            if(constructionPossible(reste, alphabet, memo)){
                 memo[objectif] = true
                 return true
             }
@@ -95,7 +95,7 @@ const constructionPossible : ConstructionPossible = ( objectif: string, alphabet
 function benchProbleme(problemes : {[p : string] : Array<string>}) {
     for (const objectif in problemes){
       const alphabet = problemes[objectif]
-      console.log(`"${objectif}"-> ${constructionPossible(objectif, alphabet)}`)
+      console.log(`"${objectif}"-> ${constructionPossible(objectif, alphabet, {})}`)
     }
 }
 
